@@ -24,10 +24,19 @@
 function fenv.apply
     set VARIABLES $argv
 
+    omf.log magenta "fenv.apply: Environment diff:" >&2
+    omf.log yellow "fenv.apply: $ENVIRONMENT_DIFF" >&2
+
     for variable in $VARIABLES
         set KEY (echo $variable | sed -e 's/=.*//')
         set VALUE (echo $variable | sed -e 's/.*=//')
         set COMMAND "set -g -x $KEY $VALUE"
+
+        if [ -z $KEY -o -z $VALUE ]
+            omf.log magenta "fenv.apply: Failed applying: " >&2
+            omf.log yellow "fenv.apply: would call '$COMMAND'" >&2
+            continue
+        end
 
         eval "$COMMAND" > /dev/null 2>&1
     end

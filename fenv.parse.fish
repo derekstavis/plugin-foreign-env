@@ -54,6 +54,9 @@ function fenv.parse.diff
     set OLD_ENV (fenv.parse.before $SEGMENTED_ENVIRONMENT)
     set NEW_ENV (fenv.parse.after $SEGMENTED_ENVIRONMENT)
 
+    omf.log blue "$OLD_ENV" >&2
+    omf.log green "$NEW_ENV" >&2
+
     for environment in $NEW_ENV
         if not contains $environment $OLD_ENV
             echo $environment
